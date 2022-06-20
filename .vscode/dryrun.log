@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/tygross/Documents/UbuntuSharedDir/A5/BS'
+make: Leaving directory `/Users/tygross/Documents/UbuntuSharedDir/A5/BS'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

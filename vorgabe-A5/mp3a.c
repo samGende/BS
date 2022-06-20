@@ -9,9 +9,15 @@ void idTagFile(const char *fileName,char *comment)
 	/* HIER MUESST IHR EUREN CODE EINFUEGEN */
 	struct stat fileInfo;
 
-	stat(fileName, &fileInfo);
+	if(stat(fileName, &fileInfo) != 0){
+		//Fehler mit stat
+		perror("Fehler mit stat anruf");
+		return;
+	}
+
+
 	long size = fileInfo.st_size;
-	if(S_ISREG(fileInfo.st_mode)){
+	if(S_ISREG(fileInfo.st_mode) != 0){
 		printf("is regular file\n");
 	}else {
 		printf("Invalid File type %s\n", fileName);
@@ -19,29 +25,54 @@ void idTagFile(const char *fileName,char *comment)
 	}
 	printf("%li\n", size);
 
+
+
 	if (!strncmp(".", fileName, 2) || !strncmp("..", fileName, 3))
                	return;
 
 	/* HIER MUESST IHR EUREN CODE EINFUEGEN */
+
+	//Prüft das die Datei um ein mp3 handelt.
 	if (strncmp(fileName + strlen(fileName) - 4, ".mp3", 4)) {
 			printf("%s: ausgelassen\n", fileName);
 			return;
  	}
 
+	//open file
 	FILE* file;
-	char read = 'r';
+	file = fopen(fileName, 'r');
+	if(file == NULL){
+		perror("Fehler mit fopen");
+		return;
+	}
 
-//open file and move to data section
-	file = fopen(fileName, &read);
-	fseek(file, size - 128, 0);
+	//move to datasegment in File
+	if(fseek(file, size - 128, SEEK_SET) != 0){
+		//Fehler fseek
+		perror("Fehler mit fseek");
+		if(fclose(file) != 0){
+			perror("Error mit fclose");
+		}
+		return;
+	}
+
 
 	char buffer[128];
-	fread(buffer, 1, 128, file);
+	if(fread(buffer, 1, 128, file) != 128){
+		//Fehler, denn nicht alle Bytes werden gelesen.
+		printf("Error beim lesen\n");
+
+		if(fclose(file) != 0){
+			perror("Error mit fclose");
+		}
+		return;
+	}
 
 	printf("%s\n", buffer);
 
-	if(strncmp(buffer, "TAG",3)){
+	if(strncmp(buffer, "TAG",3) != 0){
 		printf("TAG not found in %s\n", fileName);
+		return;
 	}
 
 	struct mp3file mp3;
