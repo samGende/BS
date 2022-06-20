@@ -72,6 +72,10 @@ void idTagFile(const char *fileName,char *comment)
 
 	if(strncmp(buffer, "TAG",3) != 0){
 		printf("TAG not found in %s\n", fileName);
+
+		if(fclose(file) != 0){
+			perror("Error mit fclose");
+		}
 		return;
 	}
 
@@ -109,10 +113,14 @@ void idTagFile(const char *fileName,char *comment)
 
 	mp3.genre = buffer[i];
 
-printTag(&mp3);
+	printTag(&mp3);
 
 
-
+	
+	if(fclose(file) != 0){
+		perror("Error mit fclose");
+		return;
+	}
 
 	/* HIER MUESST IHR EUREN CODE EINFUEGEN */
 }
