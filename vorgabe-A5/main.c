@@ -4,6 +4,7 @@
 
 int main(int argc, char **argv)
 {
+    
 	int i;
 
 	if (argc < 2)
@@ -14,10 +15,25 @@ int main(int argc, char **argv)
 
 	for (i = 1; i < argc; i++)
 	{
-		idTagFile(argv[i], NULL);
+		idTagFile(argv[i], "123456789012345678901234567890");
+	}
+    
+
+   /* b
+   int i;
+
+	if (argc != 2)
+	{
+		printf("Bitte gib' mindestens ein Verzeichnis an: mp3\n");
+		return 1;
 	}
 
+    idTagDir(argv[1], NULL);
+    */
+
+
 	return 0;
+    
 }
 
 /* Als Parameter ist entweder ein Integer oder ein Character zulaessig.	   *

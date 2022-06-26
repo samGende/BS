@@ -1,0 +1,5 @@
+Theoriefragen
+
+1. Die Verzeichnis "." bedeutet die akutelle Arbeitsverzeichnis und ".." ist die Eltern von "."
+2. Blockorientierte Geräten (z.B. eine Festplatte) kommunizieren mit Blocks von Information mit random access zugriff.
+   Zeichenorientiert Geräten haben sequentieller Zugriff, ein Zeichen nach der anderen (z.B. ein Tastatur).
