@@ -6,7 +6,15 @@
 
 void idTagFile(const char *fileName,char *comment)
 {
-	/* HIER MUESST IHR EUREN CODE EINFUEGEN */
+	if (!strncmp(".", fileName, 2) || !strncmp("..", fileName, 3))
+               	return;
+
+	//Prüft das die Datei um ein mp3 handelt.
+	if (strncmp(fileName + strlen(fileName) - 4, ".mp3", 4)) {
+			printf("%s: ausgelassen\n", fileName);
+			return;
+ 	}
+
 	struct stat fileInfo;
 
 	if(stat(fileName, &fileInfo) != 0){
@@ -15,23 +23,10 @@ void idTagFile(const char *fileName,char *comment)
 		return;
 	}
 
-	long size = fileInfo.st_size;
 	if(S_ISREG(fileInfo.st_mode) == 0){
 		printf("Invalid File type %s\n", fileName);
 		return;
 	}
-
-
-	if (!strncmp(".", fileName, 2) || !strncmp("..", fileName, 3))
-               	return;
-
-	/* HIER MUESST IHR EUREN CODE EINFUEGEN */
-
-	//Prüft das die Datei um ein mp3 handelt.
-	if (strncmp(fileName + strlen(fileName) - 4, ".mp3", 4)) {
-			printf("%s: ausgelassen\n", fileName);
-			return;
- 	}
 
 	//open file
 	FILE* file;
@@ -42,7 +37,7 @@ void idTagFile(const char *fileName,char *comment)
 	}
 
 	//move to datasegment in File
-	if(fseek(file, size - 128, SEEK_SET) != 0){
+	if(fseek(file, -128L, SEEK_END) != 0){
 		//Fehler fseek
 		perror("Fehler mit fseek");
 		if(fclose(file) != 0){
