@@ -46,6 +46,7 @@ void idTagFile(const char *fileName,char *comment)
 		return;
 	}
 
+	//file lesen
 	char buffer[128];
 	if(fread(buffer, 1, 128, file) != ID3_SIZE){
 		//Fehler, denn nicht alle Bytes werden gelesen.
